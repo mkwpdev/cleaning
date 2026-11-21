@@ -28,3 +28,46 @@ faqItems.forEach((item) => item.querySelector('summary').addEventListener('click
   faqItems.forEach((other) => { if (other !== item && other.open) setFaq(other, false); });
   setFaq(item, opening);
 }));
+
+// Show one price list at a time when scripting is available.
+const pricesTabList = document.querySelector('.prices-tabs');
+const pricesTabs = [...pricesTabList.querySelectorAll('[role="tab"]')];
+const pricesPanels = pricesTabs.map((tab) => document.getElementById(tab.getAttribute('aria-controls')));
+
+function selectPricesTab(index) {
+  pricesTabs.forEach((tab, tabIndex) => {
+    const selected = tabIndex === index;
+    tab.setAttribute('aria-selected', String(selected));
+    tab.tabIndex = selected ? 0 : -1;
+    pricesPanels[tabIndex].hidden = !selected;
+  });
+}
+
+pricesTabs.forEach((tab, index) => {
+  const panel = pricesPanels[index];
+  panel.setAttribute('role', 'tabpanel');
+  panel.setAttribute('aria-labelledby', tab.id);
+  panel.tabIndex = 0;
+  panel.querySelector('h3').hidden = true;
+
+  tab.addEventListener('click', () => selectPricesTab(index));
+  tab.addEventListener('keydown', (event) => {
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+
+    const last = pricesTabs.length - 1;
+    const nextIndex = {
+      ArrowLeft: index === 0 ? last : index - 1,
+      ArrowRight: index === last ? 0 : index + 1,
+      Home: 0,
+      End: last
+    }[event.key];
+    if (nextIndex === undefined) return;
+
+    event.preventDefault();
+    selectPricesTab(nextIndex);
+    pricesTabs[nextIndex].focus();
+  });
+});
+
+selectPricesTab(0);
+pricesTabList.hidden = false;

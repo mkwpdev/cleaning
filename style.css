@@ -95,3 +95,51 @@
   .site-header .nav a::after{content:"";position:absolute;left:0;bottom:-5px;width:100%;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
   .site-header .nav a:hover::after,.site-header .nav a:focus-visible::after{transform:scaleX(1)}
 }
+
+.prices{background:var(--white)}
+.prices-content{max-width:760px}
+.prices h2{text-align:center}
+.prices-tabs:not([hidden]){
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+  margin:clamp(24px,4vw,40px) 0 clamp(24px,4vw,36px);
+}
+.prices-tab{
+  min-height:44px;
+  padding:10px clamp(9px,2vw,23px);
+  border:1px solid transparent;
+  border-radius:50px;
+  background:var(--panel);
+  color:var(--accent);
+  font-size:clamp(12px,2vw,14px);
+  font-weight:700;
+  line-height:1.4;
+  cursor:pointer;
+}
+.prices-tab:hover{border-color:var(--accent)}
+.prices-tab[aria-selected="true"]{background:var(--accent);color:var(--white)}
+.prices-panel h3{margin:28px 0 14px}
+.prices-panel:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.prices-list{margin:0;border-top:1px solid var(--line);font-family:var(--sans)}
+.prices-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:baseline;
+  gap:16px;
+  padding:clamp(12px,2vw,17px) 0;
+  border-bottom:1px solid var(--line);
+  font-size:clamp(14px,2vw,17px);
+}
+.prices-row dt{font-weight:600}
+.prices-row dd{margin:0;color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.prices-note{margin-top:20px;color:#45636a;font-size:14px}
+@media(max-width:480px){
+  .prices-tabs:not([hidden]){
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:6px;
+  }
+  .prices-tab{padding-inline:5px;text-wrap:balance}
+}
